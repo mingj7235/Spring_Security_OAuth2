@@ -30,8 +30,8 @@ public class IndexController {
     }
 
     @GetMapping ("/login")
-    public @ResponseBody String login () {
-        return "login";
+    public String login () {
+        return "loginForm";
     }
 
     @GetMapping ("/join")
