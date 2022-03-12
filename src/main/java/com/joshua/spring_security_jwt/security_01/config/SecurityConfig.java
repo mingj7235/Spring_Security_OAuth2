@@ -36,6 +36,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                .usernameParameter("username2") // parameter 값을 바꾸고싶다면
                 .loginProcessingUrl("/login") // /login 주소가 호출이 되면 시큐리티가 낚아채서 대신 로그인을 진행한다.
                 .defaultSuccessUrl("/") // 로그인 성공 시 메인으로 감
+                .and()
+                .oauth2Login()
+                .loginPage("/loginForm") // 구글 로그인이 완료된 뒤의 후처리가 필요하다.
         ;
     }
 
