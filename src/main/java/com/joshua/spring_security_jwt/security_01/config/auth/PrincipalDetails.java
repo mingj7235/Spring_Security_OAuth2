@@ -26,8 +26,17 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
 
     private User user; //콤포지션을 해야한다.
 
+    private Map<String,Object> attributes;
+
+    // 일반 로그인때 사용하는 생성자 UserDetails
     public PrincipalDetails(final User user) {
         this.user = user;
+    }
+
+    //OAuth 로그인때 사용하는 생성자 OAuth2User
+    public PrincipalDetails(final User user, final Map<String, Object> attributes) {
+        this.user = user;
+        this.attributes = attributes;
     }
 
     // 해당 User의 권한을 리턴하는 곳 !
@@ -82,7 +91,7 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
     //OAuth2User
     @Override
     public Map<String, Object> getAttributes() {
-        return null;
+        return attributes;
     }
 
     @Override

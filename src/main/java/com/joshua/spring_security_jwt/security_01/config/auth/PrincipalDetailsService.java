@@ -18,6 +18,7 @@ public class PrincipalDetailsService implements UserDetailsService {
     private final UserRepository repository;
 
     // Security Session => Authentication => UserDetails
+    // 메소드 종료시 @AuthenticationPrincipal 어노테이션이 만들어진다.
     @Override
     public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
         // username 은 loginForm.html 에 있는 form 태그의 username과 매칭이 되는 것이다.

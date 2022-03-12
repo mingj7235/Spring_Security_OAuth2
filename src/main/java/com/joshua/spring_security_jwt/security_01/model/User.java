@@ -1,7 +1,6 @@
 package com.joshua.spring_security_jwt.security_01.model;
 
-import lombok.Data;
-import lombok.Getter;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.Entity;
@@ -10,7 +9,11 @@ import javax.persistence.Id;
 import java.sql.Timestamp;
 
 @Entity
-@Data
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor (access = AccessLevel.PROTECTED)
+@AllArgsConstructor (access = AccessLevel.PRIVATE)
 public class User {
 
     @Id
@@ -31,4 +34,6 @@ public class User {
 
     @CreationTimestamp
     private Timestamp createDate;
+
+
 }
