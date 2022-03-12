@@ -9,13 +9,20 @@ package com.joshua.spring_security_jwt.security_01.config.auth;
 // Security Session => Authentication 을 넣도록 정해져있다. => UserDetails 타입으로 넣어야한다. 정해놓음!!
 
 import com.joshua.spring_security_jwt.security_01.model.User;
+import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
 
-public class PrincipalDetails implements UserDetails {
+
+//Authentication 에 2가지의 타입 즉 UserDetails, OAuth2User가 들어간다.
+// 두가지의 방향으로 로그인이 가능하기 때문에 이 두가지를 묶는 클래스를 구현해야한다.
+@Data
+public class PrincipalDetails implements UserDetails, OAuth2User {
 
     private User user; //콤포지션을 해야한다.
 
@@ -69,6 +76,18 @@ public class PrincipalDetails implements UserDetails {
         // 이곳에서 Enable을 false로 리턴해주면된다.
 
         return true;
+    }
+
+
+    //OAuth2User
+    @Override
+    public Map<String, Object> getAttributes() {
+        return null;
+    }
+
+    @Override
+    public String getName() {
+        return null;
     }
 
 }

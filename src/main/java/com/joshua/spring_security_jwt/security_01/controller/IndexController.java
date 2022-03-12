@@ -1,12 +1,15 @@
 package com.joshua.spring_security_jwt.security_01.controller;
 
+import com.joshua.spring_security_jwt.security_01.config.auth.PrincipalDetails;
 import com.joshua.spring_security_jwt.security_01.model.User;
 import com.joshua.spring_security_jwt.security_01.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,6 +22,28 @@ public class IndexController {
     private final UserRepository repository;
 
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    @GetMapping("test/login")
+    public @ResponseBody String testLogin(Authentication authentication,
+                                          @AuthenticationPrincipal PrincipalDetails userDetails) { //@AuthenticationPrincipal을 통해 session정보 접근가능
+        System.out.println("/test/login =======================");
+        PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
+        System.out.println("authentication : " + principalDetails.getUser());
+
+        System.out.println("userDetails: " + userDetails.getUsername());
+        return "세션정보확인하기";
+    }
+
+    @GetMapping("test/oauth/login")
+    public @ResponseBody String testOAuthLogin(Authentication authentication,
+                                               @AuthenticationPrincipal OAuth2User oAuth2) { //@AuthenticationPrincipal을 통해 session정보 접근가능
+        System.out.println("/test/login =======================");
+        OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
+        System.out.println("authentication : " + oAuth2User.getAttributes());
+
+        System.out.println("oauth2User: " + oAuth2.getAttributes());
+        return "OAuth 세션정보확인하기";
+    }
 
     @GetMapping ({"", "/"})
     public String index () {
@@ -70,7 +95,6 @@ public class IndexController {
     }
 
     @PreAuthorize("hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')") // data() 가 실행되기 직전에 실행된다.
-//    @PostAuthorize() // data()가 실행된 후에
     @GetMapping ("/data")
     public @ResponseBody String data () {
         return "data";
