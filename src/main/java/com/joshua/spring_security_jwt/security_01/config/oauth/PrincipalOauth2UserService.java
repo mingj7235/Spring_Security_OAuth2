@@ -3,6 +3,7 @@ package com.joshua.spring_security_jwt.security_01.config.oauth;
 import com.joshua.spring_security_jwt.security_01.config.auth.PrincipalDetails;
 import com.joshua.spring_security_jwt.security_01.config.oauth.provider.FacebookUserInfo;
 import com.joshua.spring_security_jwt.security_01.config.oauth.provider.GoogleUserInfo;
+import com.joshua.spring_security_jwt.security_01.config.oauth.provider.NaverUserInfo;
 import com.joshua.spring_security_jwt.security_01.config.oauth.provider.OAuth2UserInfo;
 import com.joshua.spring_security_jwt.security_01.model.User;
 import com.joshua.spring_security_jwt.security_01.repository.UserRepository;
@@ -13,6 +14,8 @@ import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
+
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -46,6 +49,9 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
         } else if (userRequest.getClientRegistration().getRegistrationId().equals("facebook")) {
             System.out.println("facebook 로그인 요청");
             oAuth2UserInfo = new FacebookUserInfo(oAuth2User.getAttributes());
+        } else if (userRequest.getClientRegistration().getRegistrationId().equals("naver")) {
+            System.out.println("naver 로그인 요청");
+            oAuth2UserInfo = new NaverUserInfo((Map) oAuth2User.getAttributes().get("response"));
         } else {
             System.out.println("우리는 구글과 페이스북만 지원합니다.");
         }
